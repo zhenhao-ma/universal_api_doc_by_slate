@@ -368,8 +368,6 @@ email | String | - | 邮箱
 --------- | ------- | ----------- | -----------
 data | Boolean | - | 是否验证成功
 
-<aside class="warning">如果发现用户的邮箱已被注册，而用户感觉是别人盗用了邮箱注册。那么系统应该提示用户使用<code>忘记密码</code>的功能来找回密码。</aside>
-
 # @Aftershop: 确认修改密码
 
 > 请求数据
@@ -415,7 +413,7 @@ data | String | - | 登录凭证 _auth
 
 <aside class="notice">成功调用重置密码，重置成功后，用户的邮箱验证状态也将会被设置成验证成功。无需单独再验证多一次邮箱。</aside>
 
-# @Aftershop: 更新用户信息
+# @Aftershop: 更新消费者用户信息
 
 > 请求数据
 
@@ -474,62 +472,59 @@ data | Object | - | 更新后的用户数据
 
 <aside class="notice">本API可配合上传文件API实现更换头像。</aside>
 
-# @Aftershop: 更新用户信息
+# @Aftershop: 消费者上传文件
 
 > 请求数据
 
-```json
-{
-    "email": "bob@gmail.com",
-    "deviceIdentifier": "postman",
-    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
-    "resetCode": "12392",
-    "nickname": "my new nickname",
-    "_auth": "ef136896b85dfd337540c7cc26cb2257"
-}
+```form
+Form数据
+files: List
+bcid: String
+_auth: String
 ```
 
 > 返回JSON数据
 
 ```json
 {
-    "data": {
-        "avatar": "",
-        "bcid": "2877383e-5551-4708-862b-a0827d294d73",
-        "clientId": "076e3378-a3f4-441e-a998-4a89ee894d83",
-        "createdAt": 0.0,
-        "customerId": "awYcbRqifXnpnesNSfJ2",
-        "email": "bob@gmail.com",
-        "emailVerified": true,
-        "freezed": false,
-        "history": {},
-        "lastModifiedBy": "awYcbRqifXnpnesNSfJ2",
-        "nickname": "my new nickname",
-        "passwordHashed": "$pbkdf2-sha256$29000$YswZQ6j1Psc4BwAgxFgrBQ$kUNb9fhAI2mblHrPbjW0//LTphYVOVjUCu8YKsqnsfk",
-        "source": "app"
-    },
+    "data": [
+      {
+          "freezed" : false,
+          "createdBy" : "kWsLwpKF1Uw17Su99l4d",
+          "createdAt" : 1602328489.64209,
+          "filePath" : "/Users/mazhenhao/Documents/localhost_file_storage/zizoa-W-5-soccer_1628_urls.csv",
+          "fileUrl" : "/Users/mazhenhao/Documents/localhost_file_storage/zizoa-W-5-soccer_1628_urls.csv",
+          "prefix" : "/Users/mazhenhao/Documents/localhost_file_storage/",
+          "server" : "zhmamac",
+          "fid" : "686405a6-33a5-45ee-9cd7-85af8632a55c",
+          "uid" : "kWsLwpKF1Uw17Su99l4d",
+          "wxid" : "",
+          "customerId": "",
+          "originalFileName" : "W-5-soccer_1628_urls.csv",
+          "source" : "",
+          "ready" : true,
+          "export" : false,
+          "contentType" : "text/csv"
+      }
+    ],
     "status": true
 }
 ```
 
-可以通过本API修改用户的信息，允许用户更改昵称等。
+本API还未经过严格测试，不确定能正确解析Form表单中的`_auth`和`bcid`。
 
 ### 请求
 
-`POST /customer/update_information`
+`POST /customer/upload_file`
 
 ### 请求参数
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-nickname | String | 可选 | 昵称
-avatar | String | 可选 | 头像
-email | String | 可选 | 邮箱，如果更新邮箱，则会导致`emailVerified`邮箱验证重置为`False`
+files | List | - | 文件列表
 
 ### 返回参数
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-data | Object | - | 更新后的用户数据
-
-<aside class="notice">本API可配合上传文件API实现更换头像。</aside>
+data | List | - | 上传后的文件列表，含`fileUrl`文件链接。
