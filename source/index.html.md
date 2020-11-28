@@ -27,11 +27,20 @@ code_clipboard: true
 3. m.xuggest.com
 4. and a time table project will be released later on.
 
+目前规划是xuggest.com和aftershopapp.com作为中文版官网。
+而xuggest.net和aftershop.app将作为全球英语官网。
+
 # API 标准
 
 所有API的设计严格遵守Restful API的标准。
 
 ### 请求标准
+
+基础URL一般为：
+1. xuggest.com/api/
+2. m.xuggest.com/api/
+3. aftershop.app/api/
+3. aftershopapp.com/api/
 
 全部API都将以`/api/`为开头。请求时，必须要以`POST`请求。请求数据将会以`Json`为格式，除了文件上传API将会使用 `Form` 数据格式。
 
@@ -85,8 +94,9 @@ bcid | String | 品牌类目ID
 
 参数 | 类型 | 描述 | 携带场景
 --------- | ------- | ----------- | -----------
-bcid | String | 品牌类目ID | 任何时候，一个bcid对应一个被激活的app/jss
+bcid | String | 品牌类目ID | 必须提交
 _auth | String | 登陆凭证 | 已登陆用户应该每次请求都提交_auth参数给API
+deviceIdentifier | String | 设备ID | 必须提交
 
 而API特殊状态码处理
 
@@ -98,10 +108,10 @@ _auth | String | 登陆凭证 | 已登陆用户应该每次请求都提交_auth�
 
 #API调用
 
-> 示范代码
-
 开发需要把调用API封装成方法/类，这样能更好的处理异常以及未来的版本迭代修改等。
 最值得注意的是，返回时需要检查状态码和`status`参数，然后及时把错误提示显示给用户。
+
+> 示范代码
 
 ```python
 import requests
@@ -118,7 +128,6 @@ def post_api(url, dict_data):
 
 > 这是一个基础调用function
 
-
 # @Aftershop: 消费者注册
 
 ### 请求
@@ -127,13 +136,24 @@ def post_api(url, dict_data):
 
 ### 请求参数
 
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+password | String | - | 密码
+source | String | - | 注册者来源，`app`或`website`
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Object | - | 用户数据
 
 > 请求数据
 
 ```json
 {
     "email": "bob@gmail.com",
-    "password": "Temp1234566",
+    "password": "123456",
     "source": "app",
     "deviceIdentifier": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73"
@@ -165,186 +185,359 @@ def post_api(url, dict_data):
 }
 ```
 
+# @Aftershop: 消费者登录
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+### 请求
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+`POST /customer/login`
 
-`Authorization: meowmeowmeow`
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+password | String | - | 密码
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Object | - | _auth 登录凭证
+
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "password": "123456",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": "b2b9b89d8039da5c4d42434a0f1de4b7",
+    "status": true
+}
+```
+
+# @Aftershop: 发送验证邮箱的链接至消费者邮箱里
+
+发送验证邮箱所需要的验证码`verifyCode`到邮箱，用户可以通过这个验证码，实现验证邮箱的功能。
+
+### 请求
+
+`POST /customer/send_email_verification`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+每个用户的邮箱默认是未被验证的，我们在注册流程中并没有强调验证用户邮箱。所以我们后续会在必要的时候要求验证用户的邮箱。而你必须要使用API返回的<code>status</code>来帮助判断是否发件成功。用户会收到验证邮箱所需要的验证码，可以提交到平台上。
 </aside>
 
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> 请求数据
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "email": "bob@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "a1694737b8fdf917ee770973fc383d24"
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
+> 返回JSON数据
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+    "status": true
 }
 ```
 
-This endpoint deletes a specific kitten.
+# @Aftershop: 发送重置密码的验证码至消费者邮箱里
 
-### HTTP Request
+发送重置密码所需要的验证码`resetCode`到邮箱，用户可以通过这个验证码，实现重置密码的功能。
 
-`DELETE http://example.com/kittens/<ID>`
+### 请求
 
-### URL Parameters
+`POST /customer/send_reset_password_code`
 
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
+### 请求参数
 
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "a1694737b8fdf917ee770973fc383d24"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "status": true
+}
+```
+
+# @Aftershop: 检查邮箱是否已被注册
+
+可以通过这个API，在用户输入邮箱的时候检查，该邮箱是否已被注册。
+
+### 请求
+
+`POST /customer/is_email_registered`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Boolean | - | 是否已被注册
+
+<aside class="warning">如果发现用户的邮箱已被注册，而用户感觉是别人盗用了邮箱注册。那么系统应该提示用户使用<code>忘记密码</code>的功能来找回密码。</aside>
+
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "a1694737b8fdf917ee770973fc383d24"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": true,
+    "status": true
+}
+```
+
+# @Aftershop: 确认邮箱验证
+
+本API允许提交`verifyCode`邮箱验证码来确认邮箱验证。配合`/customer/send_email_verification`API，可以实现验证邮箱的功能。
+
+### 请求
+
+`POST /customer/verify_email`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Boolean | - | 是否验证成功
+
+<aside class="warning">如果发现用户的邮箱已被注册，而用户感觉是别人盗用了邮箱注册。那么系统应该提示用户使用<code>忘记密码</code>的功能来找回密码。</aside>
+
+> 请求数据
+
+```json
+{
+    "email": "bob010377.9@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "verifyCode": "675165"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": true,
+    "status": true
+}
+```
+
+# @Aftershop: 确认修改密码
+
+本API允许提交`resetCode`密码重置验证码来确认实现修改密码。配合`/customer/send_reset_password_code`API，可以实现修改密码的功能。
+
+### 请求
+
+`POST /customer/reset_password`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+resetCode | String | - | 重置密码验证码，通过别的API发送至邮箱获取
+password | String | - | 新密码
+email | String | - | 邮箱
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | String | - | 登录凭证 _auth
+
+<aside class="notice">成功调用重置密码，重置成功后，用户的邮箱验证状态也将会被设置成验证成功。无需单独再验证多一次邮箱。</aside>
+
+> 请求数据
+
+```json
+{
+    "email": "bob010377.9@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "resetCode": "12392",
+    "password": "wow123"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": "ef136896b85dfd337540c7cc26cb2257",
+    "status": true
+}
+```
+
+# @Aftershop: 更新用户信息
+
+可以通过本API修改用户的信息，允许用户更改昵称等。
+
+### 请求
+
+`POST /customer/update_information`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+nickname | String | 可选 | 昵称
+avatar | String | 可选 | 头像
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Object | - | 更新后的用户数据
+
+<aside class="notice">本API可配合上传文件API实现更换头像。</aside>
+
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "resetCode": "12392",
+    "nickname": "my new nickname",
+    "_auth": "ef136896b85dfd337540c7cc26cb2257"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": {
+        "avatar": "",
+        "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+        "clientId": "076e3378-a3f4-441e-a998-4a89ee894d83",
+        "createdAt": 0.0,
+        "customerId": "awYcbRqifXnpnesNSfJ2",
+        "email": "bob@gmail.com",
+        "emailVerified": true,
+        "freezed": false,
+        "history": {},
+        "lastModifiedBy": "awYcbRqifXnpnesNSfJ2",
+        "nickname": "my new nickname",
+        "passwordHashed": "$pbkdf2-sha256$29000$YswZQ6j1Psc4BwAgxFgrBQ$kUNb9fhAI2mblHrPbjW0//LTphYVOVjUCu8YKsqnsfk",
+        "source": "app"
+    },
+    "status": true
+}
+```
+
+# @Aftershop: 更新用户信息
+
+可以通过本API修改用户的信息，允许用户更改昵称等。
+
+### 请求
+
+`POST /customer/update_information`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+nickname | String | 可选 | 昵称
+avatar | String | 可选 | 头像
+email | String | 可选 | 邮箱，如果更新邮箱，则会导致`emailVerified`邮箱验证重置为`False`
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Object | - | 更新后的用户数据
+
+<aside class="notice">本API可配合上传文件API实现更换头像。</aside>
+
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "resetCode": "12392",
+    "nickname": "my new nickname",
+    "_auth": "ef136896b85dfd337540c7cc26cb2257"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "data": {
+        "avatar": "",
+        "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+        "clientId": "076e3378-a3f4-441e-a998-4a89ee894d83",
+        "createdAt": 0.0,
+        "customerId": "awYcbRqifXnpnesNSfJ2",
+        "email": "bob@gmail.com",
+        "emailVerified": true,
+        "freezed": false,
+        "history": {},
+        "lastModifiedBy": "awYcbRqifXnpnesNSfJ2",
+        "nickname": "my new nickname",
+        "passwordHashed": "$pbkdf2-sha256$29000$YswZQ6j1Psc4BwAgxFgrBQ$kUNb9fhAI2mblHrPbjW0//LTphYVOVjUCu8YKsqnsfk",
+        "source": "app"
+    },
+    "status": true
+}
+```
