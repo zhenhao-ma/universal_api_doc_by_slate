@@ -3,7 +3,6 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - python
-  - javascript
 
 toc_footers:
   - <a href='https://xuggest.com' target="_blank">Project Official Website</a>
@@ -74,6 +73,9 @@ bcid | String | 品牌类目ID
 
 > 示范代码
 
+开发需要把调用API封装成方法/类，这样能更好的处理异常以及未来的版本迭代修改等。
+最值得注意的是，返回时需要检查状态码和`status`参数，然后及时把错误提示显示给用户。
+
 ```python
 import requests
 BASE_URL = "https://xuggest.com/api/"
@@ -92,20 +94,50 @@ def post_api(url, dict_data):
 
 # @Aftershop: 消费者注册
 
-> To authorize, use this code:
+### 请求
+
+`POST /customer/register`
+
+### 请求参数
 
 
-```python
-post_api('')
+> 请求数据
+
+```json
+{
+    "email": "bob@gmail.com",
+    "password": "Temp1234566",
+    "source": "app",
+    "deviceIdentifier": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73"
+}
 ```
 
-```javascript
-const kittn = require('kittn');
+> 返回JSON数据
 
-let api = kittn.authorize('meowmeowmeow');
+```json
+{
+    "data": {
+        "_auth": "3cc6edf3dce411926ee479e677767a29",
+        "customer": {
+            "avatar": "",
+            "bcid": "2871383e-5551-4708-862b-a0827d294d73",
+            "clientId": "176e3378-a3f4-441e-a998-4a89ee894d83",
+            "createdAt": 0.0,
+            "customerId": "awYcbRq2fXnpnesNSfJ1",
+            "email": "bob@gmail.com",
+            "emailVerified": false,
+            "freezed": false,
+            "history": {},
+            "nickname": "Customer",
+            "passwordHashed": "$pbkdf2-sha256$29011$JYTQ3vvfe4.xNqZ0Tsn5Pw$aoiOoi3RzqgorbkGMJuyO4kQlnG3m4VHbIwzYdw612c",
+            "source": "app"
+        }
+    },
+    "status": true
+}
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
 
 Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
 
