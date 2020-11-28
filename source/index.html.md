@@ -2,14 +2,12 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
   - python
   - javascript
 
 toc_footers:
   - <a href='https://xuggest.com' target="_blank">Project Official Website</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation editing standard</a>
+  - <a href='https://github.com/slatedocs/slate/wiki/Markdown-Syntax'>Documentation editing standard</a>
 
 includes:
   - errors
@@ -19,34 +17,55 @@ search: true
 code_clipboard: true
 ---
 
-# Introduction
+# 介绍
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+这个是Xuggest的API文档，涵盖了Xuggest旗下大部分的产品以及项目。
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+1. xuggest.com
+2. aftershopapp.com 和 aftershop.app
+3. m.xuggest.com
+4. and a time table project will be released later on.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# API 标准
+所有API的设计严格遵守Restful API的标准。
+## 请求标准
+全部API都将以`/api/`为开头。请求时，必须要以`POST`请求。请求数据将会以`Json`为格式，除了文件上传API将会使用 `Form` 数据格式。
+## 返回标准
+全部API都将以Json的格式返回数据。
+Json标准返回是：
+1. `status`: Boolean
+2. `data`: 请求数据，可以是任何数据类型。只有当status === true才会提供。
+3. `msg`: String。，只有当status === false才会提供。提示错误的信息，可以直接显示给用户看。
+
+#API调用
+##Python为例
+```python
+import requests
+BASE_URL = https://xuggest.com/api/
+def post_api(url, dict_data):
+    response = requests.post(url=BASE_URL + url, json=dict_data)
+    if response.status_code != 200:
+        raise ValueError('返回错误：代码{}'.format(response.status_code))
+    resp = response.json()
+    if not resp['status']:
+        raise ValueError(resp['msg'])
+    return resp['data']
+```
+
+```javascript
+123
+```
+###返回
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
 
 ```python
 import kittn
 
 api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
 ```
 
 ```javascript
