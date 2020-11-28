@@ -29,25 +29,54 @@ code_clipboard: true
 4. and a time table project will be released later on.
 
 # API 标准
+
 所有API的设计严格遵守Restful API的标准。
 
 ### 请求标准
+
 全部API都将以`/api/`为开头。请求时，必须要以`POST`请求。请求数据将会以`Json`为格式，除了文件上传API将会使用 `Form` 数据格式。
 
 ### 返回标准
+
 全部API都将以Json的格式返回数据。
 Json标准返回是：
 
 1. `status`: Boolean
 2. `data`: 请求数据，可以是任何数据类型。只有当status === true才会提供。
-3. `msg`: String。，只有当status === false才会提供。提示错误的信息，可以直接显示给用户看。
+3. `msg`: String。只有当status === false才会提供。提示错误的信息，可以直接显示给用户看。
+
+# 设计标准
+
+### 通用参数
+
+后端以及数据库框架内，有部分属性是通用的。
+
+参数 | 类型 | 描述
+--------- | ------- | -----------
+created_by | String | 由哪个用户ID创建的，用户可以是管理员/消费者/客户等
+created_at | Int | 什么时候创建的
+freezed | Boolean | 是否已经被隐藏
+
+### Aftershop项目设计标准
+
+Xuggest下的Aftershop项目中常见参数。一般来说，1个客户会有多个品牌类目。所以1个`clientId`下会有多个`bcid`。而每个`bcid`会单独作为一个项目进行。也可以把品牌类目理解为客户的项目Project。
+
+参数 | 类型 | 描述
+--------- | ------- | -----------
+clientId | String | 客户ID（购买了aftershop app的客户）
+bcid | String | 品牌类目ID
+
+<aside class="notice">
+而每个品牌类目<code>bcid</code>，将会对应不同的App，嵌入式JS，消费者群等。
+</aside>
 
 #API调用
 
-###Python为例
+> 示范代码
+
 ```python
 import requests
-BASE_URL = https://xuggest.com/api/
+BASE_URL = "https://xuggest.com/api/"
 def post_api(url, dict_data):
     response = requests.post(url=BASE_URL + url, json=dict_data)
     if response.status_code != 200:
@@ -58,20 +87,16 @@ def post_api(url, dict_data):
     return resp['data']
 ```
 
-```javascript
-123
-```
-###返回
+> 这是一个基础调用function
 
-# Authentication
+
+# @Aftershop: 消费者注册
 
 > To authorize, use this code:
 
 
 ```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+post_api('')
 ```
 
 ```javascript
