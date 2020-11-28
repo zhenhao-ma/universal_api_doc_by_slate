@@ -28,16 +28,20 @@ code_clipboard: true
 
 # API 标准
 所有API的设计严格遵守Restful API的标准。
+
 ## 请求标准
 全部API都将以`/api/`为开头。请求时，必须要以`POST`请求。请求数据将会以`Json`为格式，除了文件上传API将会使用 `Form` 数据格式。
+
 ## 返回标准
 全部API都将以Json的格式返回数据。
 Json标准返回是：
+
 1. `status`: Boolean
 2. `data`: 请求数据，可以是任何数据类型。只有当status === true才会提供。
 3. `msg`: String。，只有当status === false才会提供。提示错误的信息，可以直接显示给用户看。
 
 #API调用
+
 ##Python为例
 ```python
 import requests
@@ -45,10 +49,10 @@ BASE_URL = https://xuggest.com/api/
 def post_api(url, dict_data):
     response = requests.post(url=BASE_URL + url, json=dict_data)
     if response.status_code != 200:
-        raise ValueError('返回错误：代码{}'.format(response.status_code))
+        raise ValueError('返回错误状态码：代码 {}'.format(response.status_code))
     resp = response.json()
     if not resp['status']:
-        raise ValueError(resp['msg'])
+        raise ValueError('返回错误信息：{}'.format(resp['msg']))
     return resp['data']
 ```
 
