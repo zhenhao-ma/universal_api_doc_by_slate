@@ -7,7 +7,9 @@ language_tabs: # must be one of https://git.io/vQNgJ
 
 toc_footers:
   - <a href='https://xuggest.com' target="_blank">Project Official Website</a>
-  - <a href='https://github.com/slatedocs/slate/wiki/Markdown-Syntax'>Documentation editing standard</a>
+  - <a href='https://github.com/slatedocs/slate/wiki/Markdown-Syntax'  target="_blank">Documentation editing standard</a>
+  - <a href='https://github.com/slatedocs/slate/wiki/Using-Slate-Natively'  target="_blank">Deploy this api project</a>
+  - <a href='https://xmgseo.com'  target="_blank">文档由马振豪维护</a>
 
 includes:
   - errors
@@ -29,10 +31,10 @@ code_clipboard: true
 # API 标准
 所有API的设计严格遵守Restful API的标准。
 
-## 请求标准
+### 请求标准
 全部API都将以`/api/`为开头。请求时，必须要以`POST`请求。请求数据将会以`Json`为格式，除了文件上传API将会使用 `Form` 数据格式。
 
-## 返回标准
+### 返回标准
 全部API都将以Json的格式返回数据。
 Json标准返回是：
 
@@ -42,7 +44,7 @@ Json标准返回是：
 
 #API调用
 
-##Python为例
+###Python为例
 ```python
 import requests
 BASE_URL = https://xuggest.com/api/
