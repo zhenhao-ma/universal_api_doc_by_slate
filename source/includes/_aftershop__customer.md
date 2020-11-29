@@ -105,7 +105,21 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 ```json
 {
     "data": {
-        "_auth": "16zWxGPY",
+        "_auth": "160594dR6nY6bJg83",
+        "customer": {
+            "avatar": "",
+            "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+            "clientId": "076e3378-a3f4-441e-a998-4a89ee894d83",
+            "createdAt": 0.0,
+            "customerId": "3TnctrAsdF-fVhLYyBUN",
+            "email": "bob010377.9@gmail.com",
+            "emailVerified": false,
+            "freezed": false,
+            "history": {},
+            "nickname": "Customer",
+            "passwordHashed": "$pbkdf2-sha256$29000$j3FubS1FiJHSmhOC8D7n/A$8T7tJvq0WgWhu2uVeGVBTg4x3l4CRTPbQaZLMLvS.cI",
+            "source": "app"
+        },
         "mergeChatError": "",
         "mergeChatStatus": false
     },
