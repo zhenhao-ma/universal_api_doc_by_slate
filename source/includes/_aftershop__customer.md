@@ -1,14 +1,3 @@
-### Aftershop - 消费者customer API标准
-
-在消费者customer的API中，需要进行授权，一般在Post请求的Json数据中添加参数_auth，或者是Form请求中添加Form键_auth。
-下面参数是应该通过拦截器interceptor的方式的形式，让每次请求都自动携带_auth和bcid至API服务器。
-
-参数 | 类型 | 描述 | 携带场景
---------- | ------- | ----------- | -----------
-bcid | String | 品牌类目ID | 必须提交
-_auth | String | 登陆凭证 | 已登陆用户应该每次请求都提交_auth参数给API
-deviceIdentifier | String | 设备ID | 必须提交
-
 #API调用
 
 > 示范代码
@@ -23,7 +12,10 @@ def post_api(url, dict_data):
     resp = response.json()
     if not resp['status']:
         raise ValueError('返回错误信息：{}'.format(resp['msg']))
-    return resp['data']
+    if 'data' in resp:
+        return resp['data']
+    else:
+        return resp['status']
 ```
 
 > 这是一个基础调用function
@@ -81,6 +73,8 @@ def post_api(url, dict_data):
 email | String | - | 邮箱
 password | String | - | 密码
 source | String | - | 注册者来源，`app`或`website`
+customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为`customerId`，如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
+customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么类型，`customer`或`anonymous`或`recipient`，一般为`customer`
 
 ### 返回参数
 
@@ -120,6 +114,9 @@ data | Object | - | 用户数据
 --------- | ------- | ----------- | -----------
 email | String | - | 邮箱
 password | String | - | 密码
+userIdentifier | String | - | 密码
+customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为`customerId`，如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
+customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么类型，`customer`或`anonymous`或`recipient`，一般为`customer`
 
 ### 返回参数
 
@@ -148,7 +145,7 @@ data | Object | - | _auth 登录凭证
 }
 ```
 
-发送验证邮箱所需要的验证码`verifyCode`到邮箱，用户可以通过这个验证码，实现验证邮箱的功能。
+必须要登录了才能调用本API。将会通过登录凭证来匹配用户的邮箱`email`。系统将会发送验证邮箱所需要的验证码`verifyCode`到邮箱，用户可以通过这个验证码，实现验证邮箱的功能。
 
 ### 请求
 
@@ -158,7 +155,6 @@ data | Object | - | _auth 登录凭证
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-email | String | - | 邮箱
 
 <aside class="notice">
 每个用户的邮箱默认是未被验证的，我们在注册流程中并没有强调验证用户邮箱。所以我们后续会在必要的时候要求验证用户的邮箱。而你必须要使用API返回的<code>status</code>来帮助判断是否发件成功。用户会收到验证邮箱所需要的验证码，可以提交到平台上。

@@ -88,3 +88,13 @@ bcid | String | 品牌类目ID
 5. App：终端App，客户链接消费者的渠道。
 6. Jss 或 JsSnippet：嵌入式Javascript，类似于Pixel，但加强了功能。客户可以通过Jss增强独立站功能。
 
+### Aftershop - 消费者customer API标准
+
+在消费者customer的API中，需要进行授权，一般在Post请求的Json数据中添加参数_auth，或者是Form请求中添加Form键_auth。
+下面参数是应该通过拦截器interceptor的方式的形式，让每次请求都自动携带_auth和bcid至API服务器。
+
+参数 | 类型 | 描述 | 携带场景
+--------- | ------- | ----------- | -----------
+bcid | String | 品牌类目ID | 必须提交
+_auth | String | 登陆凭证 | 已登陆用户应该每次请求都提交_auth参数给API
+deviceIdentifier | String | 设备ID | 必须提交
