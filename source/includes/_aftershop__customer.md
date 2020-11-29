@@ -29,7 +29,7 @@ def post_api(url, dict_data):
 
 ```json
 {
-    "email": "bob@gmail.com",
+    "email": "bob123@gmail.com",
     "password": "123456",
     "source": "app",
     "deviceIdentifier": "postman",
@@ -42,21 +42,23 @@ def post_api(url, dict_data):
 ```json
 {
     "data": {
-        "_auth": "3cc6edf3dce411926ee479e677767a29",
+        "_auth": "b5867c6JkhT",
         "customer": {
             "avatar": "",
-            "bcid": "2871383e-5551-4708-862b-a0827d294d73",
-            "clientId": "176e3378-a3f4-441e-a998-4a89ee894d83",
+            "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+            "clientId": "076e3378-a3f4-441e-a998-4a89ee894d83",
             "createdAt": 0.0,
-            "customerId": "awYcbRq2fXnpnesNSfJ1",
-            "email": "bob@gmail.com",
+            "customerId": "g7eVdJny_loHnFRVC_St",
+            "email": "bob123@gmail.com",
             "emailVerified": false,
             "freezed": false,
             "history": {},
             "nickname": "Customer",
-            "passwordHashed": "$pbkdf2-sha256$29011$JYTQ3vvfe4.xNqZ0Tsn5Pw$aoiOoi3RzqgorbkGMJuyO4kQlnG3m4VHbIwzYdw612c",
+            "passwordHashed": "$pbkdf2-sha256$29000$iZHSWiuF8D5njHHOmdOa8w$.FkJQiM2zKri4TAZmT7OiAUr2pi2IeGsPkTNr6j9mzQ",
             "source": "app"
-        }
+        },
+        "mergeChatError": "",
+        "mergeChatStatus": false
     },
     "status": true
 }
@@ -80,7 +82,10 @@ customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么�
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-data | Object | - | 用户数据
+_auth | String | - | 登录凭证
+customer | Object | - | 用户数据
+mergeChatError | String | - | 合并聊天记录如果失败了的失败信息
+mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 
 # @Aftershop: 消费者登录
 
@@ -88,8 +93,8 @@ data | Object | - | 用户数据
 
 ```json
 {
-    "email": "bob@gmail.com",
-    "password": "123456",
+    "email": "bob010377.9@gmail.com",
+    "password": "wow123",
     "deviceIdentifier": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73"
 }
@@ -99,7 +104,11 @@ data | Object | - | 用户数据
 
 ```json
 {
-    "data": "b2b9b89d8039da5c4d42434a0f1de4b7",
+    "data": {
+        "_auth": "16zWxGPY",
+        "mergeChatError": "",
+        "mergeChatStatus": false
+    },
     "status": true
 }
 ```
@@ -122,7 +131,10 @@ customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么�
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-data | Object | - | _auth 登录凭证
+_auth | String | - | 登录凭证
+customer | Object | - | 用户数据
+mergeChatError | String | - | 合并聊天记录如果失败了的失败信息
+mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 
 # @Aftershop: 发送验证邮箱的链接至消费者邮箱里
 
