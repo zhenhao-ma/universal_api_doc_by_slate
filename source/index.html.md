@@ -11,8 +11,10 @@ toc_footers:
   - <a href='https://xmgseo.com'  target="_blank">文档由马振豪维护</a>
 
 includes:
+  - update
   - errors
   - aftershop__customer
+  - aftershop__chat
 
 search: true
 
