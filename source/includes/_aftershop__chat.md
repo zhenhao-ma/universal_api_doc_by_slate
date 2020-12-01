@@ -4,7 +4,8 @@
 
 ```json
 {
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "_auth": "160594db23a06982362160594db23a06982362730JzWxGPY"
 }
@@ -33,13 +34,13 @@
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
 _auth | String | 2选1 | 标准`_auth`，只要提供了`_auth`，就不会考虑`customerIdentifier`
-customerIdentifier | String | 2选1 | 未登录情况下，客户的辨识ID，可以考虑使用设备ID，类似于`deviceIdentifier`
+customerIdentifier | String | 2选1 | 未登录游客情况下，给游客自动生成一个访客ID。用这个访客ID去申请聊天室。
 
 ### 返回参数
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-messages | Array | - | 最新的消息。
+messages | Array | - | 最新的消息，默认10条最新的。
 sessionId | String | - | 聊天室ID
 
 # @Aftershop: 消费者发送消息
@@ -48,7 +49,8 @@ sessionId | String | - | 聊天室ID
 
 ```json
 {
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "_auth": "1605DKhO3BfV81rJzWxGPY",
     "sessionId": "kHJ4nasdfasdfasdfasdfOuVSOBz",
@@ -116,7 +118,8 @@ data | Object | - | 消息发送成功后的数据。
 
 ```json
 {
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "nextOrPrevious": "next",
     "_auth": "1605bFlEecvWnviBSTWKpS1crUEXzyODKhO3BfV81rJzWxGPY",
@@ -176,7 +179,8 @@ data | Object | - | 消息发送成功后的数据。
 
 ```json
 {
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "size": 1,
     "chatRoomMessageId": "71ee0b97-52b7-44f6-8b2b-25dfc8be7255",
@@ -225,12 +229,10 @@ data | Object | - | 消息发送成功后的数据。
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-chatRoomMessageId | String | 可选 | 上一个最新的消息的`chatRoomMessageId`，如果提供了这个ID，则API将会自动返回这条消息之后的其他消息。
+sessionId | String | - | 聊天室ID
 size | Int | 可选 | 最多返回多少条，默认 10
 nextOrPrevious | String | - | 方向，只能是`next`或`previous`，类似于App中的向上滚动/或向下滚动。
-sessionId | String | - | 聊天室ID
-_auth | String | 2选1 | 标准`_auth`，只要提供了`_auth`，就不会考虑`customerIdentifier`
-customerIdentifier | String | 2选1 | 未登录情况下，客户的辨识ID，可以考虑使用设备ID，类似于`deviceIdentifier`
+chatRoomMessageId | String | 可选 | 当`nextOrPrevious`为`previous`时提供。返回`chatRoomMessageId`这条消息之前的消息。
 
 ### 返回参数
 
@@ -248,7 +250,6 @@ data | Array | - | 消息列表，最早发的，会在列表最前，最晚最�
     "sendAt": 3,
     "value": "this is a reply!!! hahaha",
     "type": "text",
-    "fromDevice": "Chrome browser 2019 version 112.123",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73"
 }
 ```
@@ -291,7 +292,6 @@ data | Array | - | 消息列表，最早发的，会在列表最前，最晚最�
 
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
-fromDevice | String | - | 设备的系列，例如`三星手机`，`iPhone`，`chrome浏览器`
 sessionId | String | - | 聊天室ID
 type | String | - | 聊天所发送的内容类别，只能是`text`, `video`, `image`
 value | String | - | 聊天所发送的值，跟`type`相对应。

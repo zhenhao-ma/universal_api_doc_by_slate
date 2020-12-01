@@ -32,7 +32,8 @@ def post_api(url, dict_data):
     "email": "bob123@gmail.com",
     "password": "123456",
     "source": "app",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73"
 }
 ```
@@ -95,7 +96,8 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 {
     "email": "bob010377.9@gmail.com",
     "password": "wow123",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73"
 }
 ```
@@ -137,9 +139,8 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 --------- | ------- | ----------- | -----------
 email | String | - | 邮箱
 password | String | - | 密码
-userIdentifier | String | - | 密码
-customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为`customerId`，如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
-customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么类型，`customer`或`anonymous`或`recipient`，一般为`customer`
+customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为游客身份下，聊天室自动生成的随机字符串。如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
+customerIdentifierTypeForChat | String | 可选 | 建议使用值为`anonymous`，代表游客身份。辨别消费者的`customerIdentifierForChat`为什么类型。
 
 ### 返回参数
 
@@ -150,14 +151,15 @@ customer | Object | - | 用户数据
 mergeChatError | String | - | 合并聊天记录如果失败了的失败信息
 mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 
-# @Aftershop: 发送验证邮箱的链接至消费者邮箱里
+# @Aftershop: 发送验证邮箱的验证码至消费者邮箱里
 
 > 请求数据
 
 ```json
 {
     "email": "bob@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "_auth": "a1694737b8fdf917ee770973fc383d24"
 }
@@ -183,6 +185,11 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 --------- | ------- | ----------- | -----------
 email | String | - | 邮箱
 
+这里值得注意的几个事情：
+1. 验证码和邮箱匹配。如果邮箱修改了，那么验证码就算输入正确，通过本API提交，也会报错。
+2. 如果用户通过`@Aftershop: 更新消费者用户信息`更新了邮箱的话，邮箱验证状态会被重置。
+3. 如果用户重置了密码，邮箱验证状态也会被设置成`已验证`。
+
 <aside class="notice">
 每个用户的邮箱默认是未被验证的，我们在注册流程中并没有强调验证用户邮箱。所以我们后续会在必要的时候要求验证用户的邮箱。而你必须要使用API返回的<code>status</code>来帮助判断是否发件成功。用户会收到验证邮箱所需要的验证码，可以提交到平台上。
 </aside>
@@ -194,7 +201,8 @@ email | String | - | 邮箱
 ```json
 {
     "email": "bob@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "_auth": "a1694737b8fdf917ee770973fc383d24"
 }
@@ -234,7 +242,8 @@ status | Boolean | - | API执行成功，也就是发送成功
 ```json
 {
     "email": "bob@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "_auth": "a1694737b8fdf917ee770973fc383d24"
 }
@@ -276,7 +285,8 @@ data | Boolean | - | 是否已被注册
 ```json
 {
     "email": "bob010377.9@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "verifyCode": "675165"
 }
@@ -316,7 +326,8 @@ data | Boolean | - | 是否验证成功
 ```json
 {
     "email": "bob010377.9@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "resetCode": "12392",
     "password": "wow123"
@@ -361,7 +372,8 @@ data | String | - | 登录凭证 _auth
 ```json
 {
     "email": "bob@gmail.com",
-    "deviceIdentifier": "postman",
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",
     "resetCode": "12392",
     "nickname": "my new nickname",

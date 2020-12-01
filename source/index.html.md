@@ -100,3 +100,4 @@ bcid | String | 品牌类目ID
 bcid | String | 品牌类目ID | 必须提交
 _auth | String | 登陆凭证 | 已登陆用户应该每次请求都提交_auth参数给API
 deviceIdentifier | String | 设备ID | 必须提交
+deviceName | String | 设备名称 | 必须提交
