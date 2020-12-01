@@ -76,8 +76,6 @@ def post_api(url, dict_data):
 email | String | - | 邮箱
 password | String | - | 密码
 source | String | - | 注册者来源，`app`或`website`
-customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为`customerId`，如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
-customerIdentifierTypeForChat | String | 可选 | 辨别消费者的ID为什么类型，`customer`或`anonymous`或`recipient`，一般为`customer`
 
 ### 返回参数
 
@@ -139,8 +137,6 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 --------- | ------- | ----------- | -----------
 email | String | - | 邮箱
 password | String | - | 密码
-customerIdentifierForChat | String | 可选 | 辨别消费者的ID，一般为游客身份下，聊天室自动生成的随机字符串。如果提供了话，就会注册之后，合并之前的未登录前的聊天记录。
-customerIdentifierTypeForChat | String | 可选 | 建议使用值为`anonymous`，代表游客身份。辨别消费者的`customerIdentifierForChat`为什么类型。
 
 ### 返回参数
 
