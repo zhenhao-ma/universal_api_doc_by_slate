@@ -153,7 +153,6 @@ mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 
 ```json
 {
-    "email": "bob@gmail.com",
     "deviceIdentifier": "2342asdfasdf3452345",
     "deviceName": "postman",
     "bcid": "2877383e-5551-4708-862b-a0827d294d73",

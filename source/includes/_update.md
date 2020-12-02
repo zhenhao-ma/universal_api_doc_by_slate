@@ -6,10 +6,14 @@
 
 更新时间 `2020-12-1`
 
+### v1.04 更新
+1. `@Aftershop: 发送验证邮箱的验证码至消费者邮箱里`不再需要`email`参数了，直接通过`_auth`来判断对应邮箱。
+
 ### v1.03 更新
 1. `@Aftershop: 消费者获取消息`返回不再是列表，而是一个对象。最新消息将会在`data.messages`中传回。
 2. 删掉了`@Aftershop: 消费者初始化聊天窗口`和`@Aftershop: 消费者获取消息`中的`customerIdentifier`参数。取而代之，将默认使用`deviceIdentifier`
-2. 删掉了`@Aftershop: 消费者注册`和`@Aftershop: 消费者登录`中的`customerIdentifierForChat`和`customerIdentifierTypeForChat`，现在只要登录和注册，都将会自动根据`deviceIdentifier`自动进行合并。
+3. 删掉了`@Aftershop: 消费者注册`和`@Aftershop: 消费者登录`中的`customerIdentifierForChat`和`customerIdentifierTypeForChat`，现在只要登录和注册，都将会自动根据`deviceIdentifier`自动进行合并。
+ 
 
 ### v1.02 更新
 1. 修改了Aftershop的整体API设计标准，现在需要提供`deviceName`才能正确调用API。
