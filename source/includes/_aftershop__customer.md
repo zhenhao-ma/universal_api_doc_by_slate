@@ -76,6 +76,9 @@ def post_api(url, dict_data):
 email | String | - | 邮箱
 password | String | - | 密码
 source | String | - | 注册者来源，`app`或`website`
+registrationCode | String | - | 邮箱验证码，当`forceToCreateWarranty`为True时才有效
+orderNumber | String | - | 订单号码，当`forceToCreateWarranty`为True时才有效
+forceToCreateWarranty | Bool | 可选 | 默认False，为True时将会自动让账号的邮箱验证状态设置成`True`，另外会自动生成一个售后订单号。
 
 ### 返回参数
 
@@ -85,6 +88,9 @@ _auth | String | - | 登录凭证
 customer | Object | - | 用户数据
 mergeChatError | String | - | 合并聊天记录如果失败了的失败信息
 mergeChatStatus | Boolean | - | 是否成功合并聊天记录
+warrantyRegisterError | String | - | 创建售后订单时出现的错误
+warrantyRegisterStatus | Boolean | - | 是否有创建成功售后订单
+warranty | Object | - | 创建成功后的售后订单对象
 
 # @Aftershop: 消费者登录
 
@@ -478,3 +484,122 @@ _auth | String | - | 标准_auth，以表内参数形式
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
 files | Array | - | 上传后的文件列表，含`fileUrl`文件链接。
+
+
+# @Aftershop: 消费者获取全部售后订单
+
+> 请求数据
+
+```json
+{
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "ef136896b85dfd337540c7cc26cb2257",
+    "page": 0,
+    "pageSize": 1000,
+    "filter": {},
+    "source": "app"
+}
+```
+
+
+> 返回JSON数据
+
+```json
+{
+    "status": true,
+    "data": {
+      "warranties": [
+          {
+              "freezed" : false,
+              "createdAt" : 1607832629.966,
+              "createdBy" : "3TnctrAsdF-fVhLYyBUN",
+              "warrantyId" : "9209b9ae-77c4-4958-9e4a-2c17ab048786",
+              "registerFrom" : "4ec676eb-6425-445a-8c62-d32083b2bba2",
+              "registerChannel" : "jsSnippet",
+              "bcid" : "2877383e-5551-4708-862b-a0827d294d73",
+              "clientId" : "076e3378-a3f4-441e-a998-4a89ee894d83",
+              "customerId" : "3TnctrAsdF-fVhLYyBUN",
+              "orderNumber" : "wow123",
+              "salesChannel" : "amazon"
+          }
+      ]
+    }
+}
+```
+
+### 请求
+
+`POST /customer/get_all_warranties`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+page | Int | - | 第几页
+pageSize | Int | - | 最多返回多少条
+filter | Object | - | 额外的筛选参数，推荐默认为 `{}`
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+warranties | Array | - | 所有注册后的售后订单
+
+
+# @Aftershop: 消费者注册售后订单
+
+> 请求数据
+
+```json
+{
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "ef136896b85dfd337540c7cc26cb2257",
+    "page": 0,
+    "pageSize": 1000,
+    "filter": {},
+    "source": "app"
+}
+```
+
+
+> 返回JSON数据
+
+```json
+{
+    "status": true,
+    "data": {
+              "freezed" : false,
+              "createdAt" : 1607832629.966,
+              "createdBy" : "3TnctrAsdF-fVhLYyBUN",
+              "warrantyId" : "9209b9ae-77c4-4958-9e4a-2c17ab048786",
+              "registerFrom" : "4ec676eb-6425-445a-8c62-d32083b2bba2",
+              "registerChannel" : "jsSnippet",
+              "bcid" : "2877383e-5551-4708-862b-a0827d294d73",
+              "clientId" : "076e3378-a3f4-441e-a998-4a89ee894d83",
+              "customerId" : "3TnctrAsdF-fVhLYyBUN",
+              "orderNumber" : "wow123",
+              "salesChannel" : "amazon"
+          }
+}
+```
+
+### 请求
+
+`POST /customer/register_warranty`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+registerFrom | String | - | 如果是从`app`中注册的售后，提供这个`appId`，否则如果从web，那么就提交`jsSnippetId`
+orderNumber | String | - | 订单号码
+
+### 返回参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+data | Object | - | 售后对象
