@@ -554,14 +554,23 @@ warranties | Array | - | 所有注册后的售后订单
 
 ```json
 {
-    "deviceIdentifier": "2342asdfasdf3452345",
-    "deviceName": "postman",
-    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
-    "_auth": "ef136896b85dfd337540c7cc26cb2257",
-    "page": 0,
-    "pageSize": 1000,
-    "filter": {},
-    "source": "app"
+  "deviceIdentifier": "postman",
+  "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+  "deviceName": "bob mac",
+  "source": "jsSnippet",
+  "_auth": "160asdfadsfasd123f123a12s3d12a3s123dfa12323123Z",
+
+  "registerFrom": "2877383e-5551-4708-862b-a0827d294d73",
+  "orderNumber": "028-8130362-2901161",
+  "salesChannel": "amazon",
+  "reviewChallenged": true,
+  "rated": true,
+  "review": "aspodjf oapisjf oiasjdfop jasopdf jpaosd",
+  "rating": 4,
+  "giftProductId": "94f8ce93-069d-4417-9874-6e734f52add7",
+  "giftImage": "https://m.xuggest.com/upload/static/2021/1/4/uhulh-Amazon.png",
+  "giftTitle": "$5 Amazon Gift Card",
+  "giftUrl": "https://amazon.com/asd/asdf/asdf/123123"
 }
 ```
 
@@ -596,7 +605,15 @@ warranties | Array | - | 所有注册后的售后订单
 参数 | 类型 | 可选 | 描述
 --------- | ------- | ----------- | -----------
 registerFrom | String | - | 如果是从`app`中注册的售后，提供这个`appId`，否则如果从web，那么就提交`jsSnippetId`
-orderNumber | String | - | 订单号码
+orderNumber | String | - | 订单号码（和amazonOrderId一致）
+reviewChallenged | Bool | - | 是否有尝试邀评
+rated | Bool | - | 是否有确认已经留下了评价
+review | String | - | 文字评价
+rating | Float | - | 邀评后站内留下的星级
+giftProductId | String | - | 所选礼物产品Id
+giftImage | String | - | 所选礼物图片
+giftTitle | String | - | 所选礼物标题
+giftUrl | String | - | 所选礼物链接
 
 ### 返回参数
 

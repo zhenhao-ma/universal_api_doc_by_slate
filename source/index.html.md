@@ -15,6 +15,7 @@ includes:
   - errors
   - aftershop__customer
   - aftershop__chat
+  - aftershop__order
 
 search: true
 
