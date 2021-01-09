@@ -153,6 +153,40 @@ customer | Object | - | 用户数据
 mergeChatError | String | - | 合并聊天记录如果失败了的失败信息
 mergeChatStatus | Boolean | - | 是否成功合并聊天记录
 
+# @Aftershop: 发送邮箱验证码-无需登录/注册时调用
+
+> 请求数据
+
+```json
+{
+    "deviceIdentifier": "2342asdfasdf3452345",
+    "deviceName": "postman",
+    "bcid": "2877383e-5551-4708-862b-a0827d294d73",
+    "_auth": "",
+    "email": "bob01@gmail.com"
+}
+```
+
+> 返回JSON数据
+
+```json
+{
+    "status": true
+}
+```
+
+无需登录，注册时就可以调用本API。邮箱验证码可用于调用注册api`@Aftershop: 消费者注册`时候，以`registrationCode`传给后端。
+
+### 请求
+
+`POST /customer/send_email_registration_code`
+
+### 请求参数
+
+参数 | 类型 | 可选 | 描述
+--------- | ------- | ----------- | -----------
+email | String | - | 邮箱
+
 # @Aftershop: 发送验证邮箱的验证码至消费者邮箱里
 
 > 请求数据
