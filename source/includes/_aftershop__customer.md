@@ -570,7 +570,10 @@ warranties | Array | - | 所有注册后的售后订单
   "giftProductId": "94f8ce93-069d-4417-9874-6e734f52add7",
   "giftImage": "https://m.xuggest.com/upload/static/2021/1/4/uhulh-Amazon.png",
   "giftTitle": "$5 Amazon Gift Card",
-  "giftUrl": "https://amazon.com/asd/asdf/asdf/123123"
+  "giftUrl": "https://amazon.com/asd/asdf/asdf/123123",
+  "giftRecipientName": "my name",
+  "giftRecipientAddress": "asdfpoajsiodpf\nasopijf oipasjdfp\nasdfojasoidf",
+  "giftRecipientPhone": "1101019182"
 }
 ```
 
@@ -614,6 +617,10 @@ giftProductId | String | - | 所选礼物产品Id
 giftImage | String | - | 所选礼物图片
 giftTitle | String | - | 所选礼物标题
 giftUrl | String | - | 所选礼物链接
+giftRecipientName | String | - | 礼物邮寄收件人
+giftRecipientAddress | String | - | 礼物邮寄地址
+giftRecipientPhone | String | - | 礼物收件手机
+
 
 ### 返回参数
 
