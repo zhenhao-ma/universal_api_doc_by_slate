@@ -76,8 +76,9 @@ def post_api(url, dict_data):
 email | String | - | 邮箱
 password | String | - | 密码
 source | String | - | 注册者来源，`app`或`website`
-registrationCode | String | - | 邮箱验证码，当`forceToCreateWarranty`为True时才有效
-orderNumber | String | - | 订单号码，当`forceToCreateWarranty`为True时才有效
+registrationCode | String | 可选 | 邮箱验证码，当`forceToCreateWarranty`为True时才有效
+orderNumber | String | 可选 | 订单号码，当`forceToCreateWarranty`为True时才有效
+registerFrom | String | 可选 | `appId`或者是`jsSnippetId`，当`forceToCreateWarranty`为True时才有效
 forceToCreateWarranty | Bool | 可选 | 默认False，为True时将会自动让账号的邮箱验证状态设置成`True`，另外会自动生成一个售后订单号。
 
 ### 返回参数
